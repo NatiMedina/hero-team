@@ -42,7 +42,11 @@ class Login extends React.Component {
 
         return (
 
+
             <Formik
+
+
+
                 initialValues={{
                     email: "",
                     password: ""
@@ -53,7 +57,7 @@ class Login extends React.Component {
                     if (!valores.email) {
                         errores.email = 'por favor ingresa un correo'
                     } else if (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(valores.email)) {
-                        errores.email = 'el correo solo puede tener letras, números, puntos, guiones y guiones bajos'
+                        errores.email = 'por favor ingresa un correo válido'
                     }
 
                     if (!valores.password) {
@@ -65,12 +69,26 @@ class Login extends React.Component {
                     return errores;
                 }}
 
+
+
                 onSubmit={(valores) => {
                     let url = loginpostUrl;
 
                     axios.post(url, valores)
                         .then(response => {
-                            console.log(response);
+                            if (typeof (Storage) !== "undefined") {
+                                console.log(response);
+                                if (response.data && response.data.token) {
+                                    localStorage.setItem('token', response.data.token);
+                                    valores.email = "";
+                                    valores.password = "";
+
+
+                                    window.location = '/home';
+                                }
+                            } else {
+                                console.log("No se puede almacenar el token de seguridad")
+                            }
                         }).catch(
                             error => console.log("Ups ocurrio un error", error)
                         )
@@ -84,7 +102,7 @@ class Login extends React.Component {
                         <div className="d-flex justify-content-center h-100">
                             <div className="card">
                                 <div className="card-header">
-                                    <h3 className="text-center pt-3">Login</h3>
+                                    <h2 className="text-center pt-3">HeroApp</h2>
                                 </div>
                                 <div className="card-body">
                                     <form onSubmit={handleSubmit}>
@@ -101,7 +119,9 @@ class Login extends React.Component {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur} />
                                             </div >
-                                            {touched.email && errors.email && <div className="error alert alert-danger">{errors.email}</div>}
+                                            <div>
+                                            {touched.email && errors.email && <div className="error alert alert-warning p-1 m-0">{errors.email}</div>}
+                                            </div>
                                         </div>
                                         <div className="input-group form-group mb-3">
                                             <div class="input-group">
@@ -116,10 +136,12 @@ class Login extends React.Component {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur} />
                                             </div>
-                                            {touched.password && errors.password && <div className="error">{errors.password}</div>}
+                                            <div>
+                                            {touched.password && errors.password && <div className="error alert alert-warning p-1 m-0">{errors.password}</div>}
+                                            </div>
                                         </div>
                                         <div className="d-grid gap-2">
-                                            <button className="btn btn-warning" type="button" onClick={handleSubmit} >Login</button>
+                                            <button className="btn p-2" type="button" onClick={handleSubmit} >Iniciar sesión</button>
                                         </div>
                                     </form>
                                 </div>
