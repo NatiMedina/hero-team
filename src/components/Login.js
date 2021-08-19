@@ -98,11 +98,13 @@ class Login extends React.Component {
 
 
                 {({ values, errors, touched, handleSubmit, handleChange, handleBlur }) => (
+
+
                     <div className="container pt-5">
                         <div className="d-flex justify-content-center h-100">
                             <div className="card">
                                 <div className="card-header">
-                                    <h2 className="text-center pt-3">HeroApp</h2>
+                                    <h1 className="text-center pt-3">HeroApp</h1>
                                 </div>
                                 <div className="card-body">
                                     <form onSubmit={handleSubmit}>
@@ -120,7 +122,7 @@ class Login extends React.Component {
                                                     onBlur={handleBlur} />
                                             </div >
                                             <div>
-                                            {touched.email && errors.email && <div className="error alert alert-warning p-1 m-0">{errors.email}</div>}
+                                                {touched.email && errors.email && <div className="error alert alert-warning p-1 m-0">{errors.email}</div>}
                                             </div>
                                         </div>
                                         <div className="input-group form-group mb-3">
@@ -131,22 +133,23 @@ class Login extends React.Component {
                                                     className="form-control"
                                                     name="password"
                                                     value={values.password}
-                                                    placeholder="password"
+                                                    placeholder="contraseña"
                                                     aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur} />
                                             </div>
                                             <div>
-                                            {touched.password && errors.password && <div className="error alert alert-warning p-1 m-0">{errors.password}</div>}
+                                                {touched.password && errors.password && <div className="error alert alert-warning p-1 m-0">{errors.password}</div>}
                                             </div>
                                         </div>
                                         <div className="d-grid gap-2">
-                                            <button className="btn p-2" type="button" onClick={handleSubmit} >Iniciar sesión</button>
+                                            <button className="w-100 btn btn-lg b-0" type="button" onClick={handleSubmit} >Iniciar sesión</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div className="card-footer">
                                 </div>
+                                {/*  <rect width="100%" height="100%" fill="#777"><img src="https://dam.smashmexico.com.mx/wp-content/uploads/2020/03/dc-comics-plataformas-digitales-contenidos-cuarentena.coronavirus-cover.jpg"></img></rect> */}
                             </div>
                         </div>
                     </div>
