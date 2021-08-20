@@ -49,3 +49,17 @@ html,body{
     font-weight: bold !important;
     color: white !important;
    }
+
+   .form-control{
+       font-size: large !important;
+   }
+
+
+   
+    @media (min-width:700px){
+        
+        .row{
+            height: 275px;
+        }
+
+      }
