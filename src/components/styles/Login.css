@@ -50,6 +50,7 @@ html,body{
     background-color: #1027f2 ;
     font-weight: bold !important;
     color: white !important;
+    padding: .75rem !important;
    }
 
    .form-control{

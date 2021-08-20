@@ -102,13 +102,13 @@ class Login extends React.Component {
                     <div className="container">
                         <div className="row"></div>
                         <div className="row">
-                        <div className="col-lg-4 col-md-1 col-sm-12"></div>
+                            <div className="col-lg-4 col-md-1 col-sm-12"></div>
                             <div className="col-lg-4 col-md-10 col-sm-12">
                                 <div className="d-flex justify-content-center h-100">
                                     <div className="card">
-                                        <div className="card-header">
-                                            <h1 className="display-5 text-center pt-3">HeroTeam</h1>
-                                        </div>
+
+                                        <h1 className="display-5 text-center pt-3">HeroTeam</h1>
+
                                         <div className="card-body">
                                             <form onSubmit={handleSubmit}>
                                                 <div className="input-group form-group mb-3">
@@ -146,14 +146,13 @@ class Login extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="d-grid gap-2">
-                                                    <button className="w-100 btn btn-lg btn-primary b-0" type="button" onClick={handleSubmit} >Iniciar sesión</button>
+                                                    <button className="w-100 btn btn-lg btn-primary mb-1" type="button" onClick={handleSubmit} >Iniciar sesión</button>
                                                 </div>
                                             </form>
                                         </div>
-                                        <div className="card-footer">
-                                        </div>
-                                        {/*  <rect width="100%" height="100%" fill="#777"><img src="https://dam.smashmexico.com.mx/wp-content/uploads/2020/03/dc-comics-plataformas-digitales-contenidos-cuarentena.coronavirus-cover.jpg"></img></rect> */}
+
                                     </div>
+                                    {/*  <rect width="100%" height="100%" fill="#777"><img src="https://dam.smashmexico.com.mx/wp-content/uploads/2020/03/dc-comics-plataformas-digitales-contenidos-cuarentena.coronavirus-cover.jpg"></img></rect> */}
                                 </div>
                             </div>
                         </div>
