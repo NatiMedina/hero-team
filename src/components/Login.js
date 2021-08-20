@@ -107,7 +107,7 @@ class Login extends React.Component {
                                 <div className="d-flex justify-content-center h-100">
                                     <div className="card">
                                         <div className="card-header">
-                                            <h1 className="text-center pt-3">HeroApp</h1>
+                                            <h1 className="display-5 text-center pt-3">HeroTeam</h1>
                                         </div>
                                         <div className="card-body">
                                             <form onSubmit={handleSubmit}>
@@ -146,7 +146,7 @@ class Login extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="d-grid gap-2">
-                                                    <button className="w-100 btn btn-lg b-0" type="button" onClick={handleSubmit} >Iniciar sesión</button>
+                                                    <button className="w-100 btn btn-lg btn-primary b-0" type="button" onClick={handleSubmit} >Iniciar sesión</button>
                                                 </div>
                                             </form>
                                         </div>

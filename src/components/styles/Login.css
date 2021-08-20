@@ -2,7 +2,8 @@
 
 html,body{ 
     /* background-image: url('https://dam.smashmexico.com.mx/wp-content/uploads/2020/03/dc-comics-plataformas-digitales-contenidos-cuarentena.coronavirus-cover.jpg'); */
-    background-color: #212529 !important;
+    /* background-color: #212529 !important; */
+    background-image: linear-gradient(to top, #0250c5 0%, #d43f8d 100%);
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
@@ -19,16 +20,17 @@ html,body{
     margin-top: 2rem;
     margin-bottom: auto;
     width: 400px;
-    background-color: rgba(0,0,0,0.5) !important;
+    background-color: white !important;
     }
     
     .card-header h1{
-    color: white ; 
+    color: black ; 
     font-family: inherit !important;
+    border: 0;
     }
     
     #inputGroup-sizing-default{
-    background-color: #6610f2;
+    background-color: #7c3fdd;
     color: white;
     border:0 !important;
     padding: 1rem;
@@ -45,7 +47,7 @@ html,body{
    }
 
    .btn{
-    background-color: #6610f2 !important;
+    background-color: #1027f2 ;
     font-weight: bold !important;
     color: white !important;
    }
