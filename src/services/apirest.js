@@ -1,1 +1,1 @@
-export const Apiurl = "https://superheroapi.com/";
+export const getUrl = "https://superheroapi.com/";

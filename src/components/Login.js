@@ -106,9 +106,7 @@ class Login extends React.Component {
                             <div className="col-lg-4 col-md-10 col-sm-12">
                                 <div className="d-flex justify-content-center h-100">
                                     <div className="card">
-
                                         <h1 className="display-5 text-center pt-3">HeroTeam</h1>
-
                                         <div className="card-body">
                                             <form onSubmit={handleSubmit}>
                                                 <div className="input-group form-group mb-3">
