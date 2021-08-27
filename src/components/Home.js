@@ -27,7 +27,7 @@ class Home extends React.Component {
             <Formik
 
                 initialValues={{
-                    name: ""
+                    nombre: ""
                 }}
 
                 validate={(valor) => {
@@ -104,7 +104,7 @@ class Home extends React.Component {
                                 </tr>
                                 <tr>
                                     <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
+                                    <td colSpan="2">Larry the Bird</td>
                                     <td>@twitter</td>
                                 </tr>
                             </tbody>
