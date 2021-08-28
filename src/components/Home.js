@@ -10,35 +10,35 @@ export default function Home() {
 
     const initialDb = [
         {
-          id: 1,
-          name: "Seiya",
-          image: "Pegaso",
+            id: 1,
+            name: "Seiya",
+            image: "Pegaso",
         },
         {
-          id: 2,
-          name: "Shiryu",
-          image: "Dragón",
+            id: 2,
+            name: "Shiryu",
+            image: "Dragón",
         },
         {
-          id: 3,
-          name: "Hyoga",
-          image: "Cisne",
+            id: 3,
+            name: "Hyoga",
+            image: "Cisne",
         },
         {
-          id: 4,
-          name: "Shun",
-          image: "Andrómeda",
+            id: 4,
+            name: "Shun",
+            image: "Andrómeda",
         },
         {
-          id: 5,
-          name: "Ikki",
-          image: "Fénix",
+            id: 5,
+            name: "Ikki",
+            image: "Fénix",
         },
-      ];
+    ];
 
 
 
-    //const [respuesta, setRespuesta] = useState([data]);
+    const [respuesta, setRespuesta] = useState([]);
 
     const [db, setDb] = useState(initialDb);
 
@@ -56,27 +56,22 @@ export default function Home() {
                 if (!valor.nombre) {
                     error.nombre = 'por favor ingresa un nombre de héroe'
                 } else if (!/^[a-zA-Z0-9 ]{3,20}$/.test(valor.nombre)) {
-                    error.nombre = 'solo se aceptan letras, numeros y espacios' //length
+
+                    error.nombre = valor.nombre.length >= 3 ? 'Solo se aceptan letras, numeros y espacios' : 'Ingrese mas caracteres'; //length
                 }
                 return error;
             }}
 
 
 
-            onSubmit={(valor) => {
+            onSubmit={async (valor) => {
 
                 let url = getUrl + 'api.php/4132652440189887/search/' + valor.nombre;
-
-                axios.get(url)
-                    .then(response => {
-                        console.log("Tengo response");
-                        console.log(response.data.results);
-                     
-
-                    }).catch(
-                        error => console.log("Ups ocurrio un error", error)
-                    )
-
+                let res = await axios.get(url);
+                let datos = res.data;
+                console.log("Tengo response");
+                setRespuesta([...datos.results]);
+                console.log(respuesta);
             }}
 
         >
@@ -105,6 +100,9 @@ export default function Home() {
                         </div>
                     </nav>
                     <div>
+                        {
+                            respuesta.map( i => i.name + ' * ')
+                        }
                         <CrudForm />
                         <CrudTable data={db} />
                     </div>
