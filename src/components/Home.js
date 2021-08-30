@@ -3,8 +3,9 @@ import './styles/Home.css';
 import { getUrl } from '../services/apirest';
 import axios from 'axios';
 import { Formik } from 'formik';
-import CrudForm from './CrudForm';
-import CrudTable from './CrudTable';
+import CrudFormTeam from './CrudFormTeam';
+import CrudTable from './CrudTableResults';
+import CrudTableResults from './CrudTableResults';
 
 export default function Home() {
 
@@ -36,11 +37,12 @@ export default function Home() {
         },
     ];
 
+    
 
 
     const [respuesta, setRespuesta] = useState([]);
-
     const [db, setDb] = useState(initialDb);
+    const [team, setTeam] = useState([]);
 
     return (
 
@@ -65,13 +67,13 @@ export default function Home() {
 
 
             onSubmit={async (valor) => {
-
                 let url = getUrl + 'api.php/4132652440189887/search/' + valor.nombre;
                 let res = await axios.get(url);
                 let datos = res.data;
+                let heroes = datos.results || [];
                 console.log("Tengo response");
-                setRespuesta([...datos.results]);
-                console.log(respuesta);
+                console.log(heroes);
+                setRespuesta([...heroes]);
             }}
 
         >
@@ -100,11 +102,13 @@ export default function Home() {
                         </div>
                     </nav>
                     <div>
-                        {
-                            respuesta.map( i => i.name + ' * ')
-                        }
-                        <CrudForm />
-                        <CrudTable data={db} />
+                        {/*   {
+                            respuesta.map(i => i.name + ' * ')
+                        } */}
+                        {respuesta.length > 0 && <CrudTableResults data={respuesta}/>}
+                       {/*  <CrudTable data={respuesta}  onAddHero={setTeam}/>
+                        <CrudForm  team={team} /> */}
+                        <CrudFormTeam team={respuesta}/>
                     </div>
                 </div>
             )}
