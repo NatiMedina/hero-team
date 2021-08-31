@@ -1,48 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/Home.css';
 import { getUrl } from '../services/apirest';
 import axios from 'axios';
 import { Formik } from 'formik';
-import CrudFormTeam from './CrudFormTeam';
-import CrudTable from './CrudTableResults';
-import CrudTableResults from './CrudTableResults';
+import FormTeam from './FormTeam';
+import Table from './TableResults';
+import TableResults from './TableResults';
+import useLocalStorage from './useLocalStorage';
 
 export default function Home() {
-
-    const initialDb = [
-        {
-            id: 1,
-            name: "Seiya",
-            image: "Pegaso",
-        },
-        {
-            id: 2,
-            name: "Shiryu",
-            image: "Dragón",
-        },
-        {
-            id: 3,
-            name: "Hyoga",
-            image: "Cisne",
-        },
-        {
-            id: 4,
-            name: "Shun",
-            image: "Andrómeda",
-        },
-        {
-            id: 5,
-            name: "Ikki",
-            image: "Fénix",
-        },
-    ];
-
-    
-
-
     const [respuesta, setRespuesta] = useState([]);
-    const [db, setDb] = useState(initialDb);
-    const [team, setTeam] = useState([]);
+    const [team, setTeam] = useLocalStorage('team', []);
+    const [coincidencias, setCoincidencias] = useState(null);
+
+
+    useEffect(() => {
+        if (coincidencias > 1) { document.title = `se encontraron ${coincidencias} coincidencias` }
+        else if (coincidencias === 1) { document.title = `se encontro ${coincidencias} coincidencia` }
+        else if (coincidencias === 0) { document.title = "no se encontro coincidencias" }
+    })
+
+
 
     return (
 
@@ -73,7 +51,9 @@ export default function Home() {
                 let heroes = datos.results || [];
                 console.log("Tengo response");
                 console.log(heroes);
+                setCoincidencias(heroes.length)
                 setRespuesta([...heroes]);
+
             }}
 
         >
@@ -105,16 +85,18 @@ export default function Home() {
                         {/*   {
                             respuesta.map(i => i.name + ' * ')
                         } */}
-                        {respuesta.length > 0 && <CrudTableResults data={respuesta}/>}
-                       {/*  <CrudTable data={respuesta}  onAddHero={setTeam}/>
-                        <CrudForm  team={team} /> */}
-                        <CrudFormTeam team={respuesta}/>
+                        {respuesta.length > 0 && <TableResults busqueda={respuesta} team={team} onAddHero={(hero) => setTeam([...team, hero])} />}
+                        <div className="pepe"></div>
+                        {/*  <Table data={respuesta}  onAddHero={setTeam}/>
+                        <Form  team={team} /> */}
+                        <FormTeam team={team} />
                     </div>
                 </div>
             )}
         </Formik>
 
     );
+
 
 
 }
