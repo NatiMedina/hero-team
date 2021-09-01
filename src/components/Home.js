@@ -4,8 +4,7 @@ import { getUrl } from '../services/apirest';
 import axios from 'axios';
 import { Formik } from 'formik';
 import FormTeam from './FormTeam';
-import Table from './TableResults';
-import TableResults from './TableResults';
+import Results from './Results';
 import useLocalStorage from './useLocalStorage';
 
 export default function Home() {
@@ -20,6 +19,10 @@ export default function Home() {
         else if (coincidencias === 0) { document.title = "no se encontro coincidencias" }
     })
 
+    const removeHero = (hero ) => {
+        var i = team.indexOf( hero);
+        i !== -1 && team.splice( i, 1 );
+    };
 
 
     return (
@@ -85,11 +88,11 @@ export default function Home() {
                         {/*   {
                             respuesta.map(i => i.name + ' * ')
                         } */}
-                        {respuesta.length > 0 && <TableResults busqueda={respuesta} team={team} onAddHero={(hero) => setTeam([...team, hero])} />}
+                        {respuesta.length > 0 && <Results results={respuesta} onAddHero={(hero) => setTeam([...team, hero])} />}
                         <div className="pepe"></div>
                         {/*  <Table data={respuesta}  onAddHero={setTeam}/>
                         <Form  team={team} /> */}
-                        <FormTeam team={team} />
+                        <FormTeam teamHero={team} onDelHero ={(hero) => setTeam([...team, hero])}/>
                     </div>
                 </div>
             )}
