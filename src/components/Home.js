@@ -3,9 +3,10 @@ import './styles/Home.css';
 import { getUrl } from '../services/apirest';
 import axios from 'axios';
 import { Formik } from 'formik';
-import FormTeam from './FormTeam';
+import Team from './Team';
 import Results from './Results';
 import useLocalStorage from './useLocalStorage';
+import HeroDetails from './HeroDetails';
 
 export default function Home() {
     const [respuesta, setRespuesta] = useState([]);
@@ -22,11 +23,14 @@ export default function Home() {
     const removeHero = (hero) => {
         const i = team.indexOf(hero);
         if (i >= 0) {
-        let newTeam = team.filter( member => member.id !== hero.id)
+            let newTeam = team.filter(member => member.id !== hero.id)
             setTeam([...newTeam]);
         }
     };
 
+    const getHeroIdList = () => {
+        return team.map(hero => hero.id);
+    }
 
     return (
 
@@ -82,21 +86,19 @@ export default function Home() {
                                     <div>
                                         {touched.nombre && errors.nombre && <div className="error alert alert-warning p-1 m-0">{errors.nombre}</div>}
                                     </div>
-                                    <button className="btn btn-success" type="submit" onClick={handleSubmit}>Search</button>
+                                    <button className="btn btn-primary" type="submit" onClick={handleSubmit}>Buscar</button>
                                 </form>
                             </div>
                         </div>
                     </nav>
                     <div>
-                        {/*   {
-                            respuesta.map(i => i.name + ' * ')
-                        } */}
-                        {respuesta.length > 0 && <Results results={respuesta} onAddHero={(hero) => setTeam([...team, hero])} />}
-                        
-                        {/*  <Table data={respuesta}  onAddHero={setTeam}/>
-                        <Form  team={team} /> */
-                        <FormTeam team={team} onDelHero={(hero) => removeHero(hero)} />}
+                        {respuesta.length > 0 && <Results results={respuesta} teamIds={getHeroIdList()} onAddHero={(hero) => setTeam([...team, hero])} />}
+                        <Team team={team} onDelHero={(hero) => removeHero(hero)} />
                     </div>
+                    {/* <div className='row'>
+                        <HeroDetails teamIds={getHeroIdList()} />
+                    </div> */}
+
                 </div>
             )}
         </Formik>
