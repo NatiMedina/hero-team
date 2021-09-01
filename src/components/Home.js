@@ -19,9 +19,12 @@ export default function Home() {
         else if (coincidencias === 0) { document.title = "no se encontro coincidencias" }
     })
 
-    const removeHero = (hero ) => {
-        var i = team.indexOf( hero);
-        i !== -1 && team.splice( i, 1 );
+    const removeHero = (hero) => {
+        const i = team.indexOf(hero);
+        if (i >= 0) {
+        let newTeam = team.filter( member => member.id !== hero.id)
+            setTeam([...newTeam]);
+        }
     };
 
 
@@ -89,18 +92,13 @@ export default function Home() {
                             respuesta.map(i => i.name + ' * ')
                         } */}
                         {respuesta.length > 0 && <Results results={respuesta} onAddHero={(hero) => setTeam([...team, hero])} />}
-                        <div className="pepe"></div>
+                        
                         {/*  <Table data={respuesta}  onAddHero={setTeam}/>
-                        <Form  team={team} /> */}
-                        <FormTeam teamHero={team} onDelHero ={(hero) => setTeam([...team, hero])}/>
+                        <Form  team={team} /> */
+                        <FormTeam team={team} onDelHero={(hero) => removeHero(hero)} />}
                     </div>
                 </div>
             )}
         </Formik>
-
     );
-
-
-
 }
-
