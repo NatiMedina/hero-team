@@ -4,33 +4,31 @@ import React from "react";
 
 const CardHeroTeam = ({ hero, delHero }) => {
 
-    const classAlignmentHero = (hero) => {
+    const classColorAlignment = (hero, bootstrapclass) => {
         if (hero.biography.alignment === "good") {
-            return 'far fa-smile'
+            return bootstrapclass + 'success'
         }
         if (hero.biography.alignment === "bad") {
-            return 'far fa-angry'
+            return bootstrapclass + 'danger'
         }
 
-        return 'far fa-meh-blank'
+        return bootstrapclass + 'warning'
     }
 
     return (
 
-        <div className="card-border-0 shadow-lg" style={{ width: '19rem' }}>
-            <div className="position-relative">
-                <img src={hero.image.url} className="rounded-circle rounded mx-auto d-block my-3 border border border-5" style={{ width: '150px', height: '150px' }} alt={hero.name} />
+        <div className="card-border-0" style={{ width: '19rem' }}>
+            <div className="d-flex position-relative justify-content-center">
+                <img src={hero.image.url} className={classColorAlignment(hero, "rounded-circle border border-3 border-")}  style={{ width: '150px', height: '150px' }} alt={hero.name} />
 
-                <div className="position-absolute top-0 start-100 translate-middle badge rounded-circle bg-info" style={{ width: '40px', height: '40px', position: 'absolute', top:'0%', left:'0%' }} >
-                    <i className={classAlignmentHero(hero)}></i>
-                </div>
-
+                <span className={classColorAlignment(hero, "position-absolute rounded-circle bg-")} style={{ width: '25px', height: '25px', left: '175px', bottom: '9px' }} title={hero.biography.alignment} >
+                </span>
             </div>
 
-            <h3 className="card-title text-center">{hero.name}</h3>
+            <h3 className="mt-3 card-title text-center">{hero.name}</h3>
 
             <div className="card-body">
-                <ul style={{ paddingTop: '3px', listStyleType: 'none', marginLeft: '5px' }}>
+                <ul style={{ paddingTop: '3px', listStyleType: 'none', marginLeft: '10%' }}>
 
                     <li><h5><span className="badge rounded-pill bg-primary">{hero.powerstats.combat}</span> Combate</h5></li>
                     <li><h5><span className="badge rounded-pill bg-primary">{hero.powerstats.durability}</span> Durabilidad</h5></li>
