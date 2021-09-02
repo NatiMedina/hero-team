@@ -17,19 +17,18 @@ const CardHeroTeam = ({ hero, delHero }) => {
 
     return (
 
-        <div className="card-border-0" style={{ width: '19rem' }}>
-            <div className="d-flex position-relative justify-content-center">
-                <img src={hero.image.url} className={classColorAlignment(hero, "rounded-circle border border-3 border-")}  style={{ width: '150px', height: '150px' }} alt={hero.name} />
-
-                <span className={classColorAlignment(hero, "position-absolute rounded-circle bg-")} style={{ width: '25px', height: '25px', left: '175px', bottom: '9px' }} title={hero.biography.alignment} >
-                </span>
+        <div className="col-lg-2 col-md-4 col-sm-12 card card-border-1 mb-3">
+            <div className="d-flex justify-content-center mt-3">
+                <img src={hero.image.url} className={classColorAlignment(hero, "rounded-circle border border-5 border-")} style={{ width: '150px', height: '150px' }} alt={hero.name} />
             </div>
 
-            <h3 className="mt-3 card-title text-center">{hero.name}</h3>
+            <div className="mt-3 card-title text-center">
+                <h3>{hero.name}</h3>
+                <h5 className="badge rounded-pill bg-primary">{hero.biography.alignment}</h5>
+            </div>
 
             <div className="card-body">
                 <ul style={{ paddingTop: '3px', listStyleType: 'none', marginLeft: '10%' }}>
-
                     <li><h5><span className="badge rounded-pill bg-primary">{hero.powerstats.combat}</span> Combate</h5></li>
                     <li><h5><span className="badge rounded-pill bg-primary">{hero.powerstats.durability}</span> Durabilidad</h5></li>
                     <li><h5><span className="badge rounded-pill bg-primary">{hero.powerstats.intelligence}</span> Inteligencia</h5></li>
