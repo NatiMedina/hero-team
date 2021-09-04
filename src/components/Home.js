@@ -138,8 +138,8 @@ export default function Home() {
                     {touched.nombre && errors.nombre && <div className="alert alert-warning alert-dismissible fade show text-center" role="alert">
                         {errors.nombre}
                     </div>}
-                    <Acumulativo team={team} />
                     <Results showResults={values.nombre && !errors.nombre} results={respuesta} teamData={getTeamData()} onAddHero={(hero) => addHero(hero)} />
+                    <Acumulativo team={team} />
 
                     <div className="container-fluid">
 

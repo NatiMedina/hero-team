@@ -10,7 +10,7 @@ const Team = ({ team, onDelHero }) => {
             <div className='row justify-content-center pt-3'>
                 {
                     team.length === 0 ?
-                        <tr><td colSpan="4">Sin miembros en el equipo</td></tr> :
+                        <div className="text-center">Sin miembros en el equipo</div> :
                         team.map(el => <CardHeroTeam key={el.id} hero={el} delHero={(hero) => onDelHero(hero)} />)
                 }
             </div>
