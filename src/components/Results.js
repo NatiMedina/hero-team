@@ -1,7 +1,7 @@
 import React from 'react';
 import RowResults from './RowResults';
 
-const Results = ({ results, teamIds, onAddHero }) => {
+const Results = ({ results, teamData, teamIds, onAddHero }) => {
 
     return (
 
@@ -12,7 +12,7 @@ const Results = ({ results, teamIds, onAddHero }) => {
                 <tbody>
                     {results.length === 0 ?
                         <tr><td colSpan="3">Sin datos</td></tr> :
-                        results.map((el) => <RowResults key={el.id} hero={el} showAdd={!teamIds.includes(el.id)} addHero={(hero) => onAddHero(hero)} />)}
+                        results.map((el) => <RowResults key={el.id} hero={el} inTeam={teamData.ids.includes(el.id)} maxSquad={teamData[el.biography.alignment].length >= 3} maxTeam={teamData.ids.length >= 6} showAdd addHero={(hero) => onAddHero(hero)} />)}
                 </tbody>
             </table>
         </div>

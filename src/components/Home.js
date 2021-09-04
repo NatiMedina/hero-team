@@ -28,6 +28,38 @@ export default function Home() {
         }
     };
 
+    const getTeamData = () => {
+
+        return {
+            bad : team.filter(member => member.biography.alignment === 'bad'),
+            good : team.filter(member => member.biography.alignment === 'good'),
+            neutral : team.filter(member => member.biography.alignment === 'neutral'),
+            ids : getHeroIdList()
+        }
+
+    }
+
+    const addHero = (hero) => {
+        if (team.length > 6) return;
+
+        const bad = team.filter(member => member.biography.alignment === 'bad');
+        const good = team.filter(member => member.biography.alignment === 'good');
+        const neutral = team.filter(member => member.biography.alignment === 'neutral');
+
+        if (hero.biography.alignment === 'bad' && bad.length < 3) {
+            setTeam([...team, hero])
+        }
+
+        if (hero.biography.alignment === 'good' && good.length < 3) {
+            setTeam([...good, hero, ...neutral, ...bad])
+        }
+
+        if (hero.biography.alignment === 'neutral') {
+            setTeam([...good, ...neutral, hero, ...bad])
+        }
+    }
+
+
     const getHeroIdList = () => {
         return team.map(hero => hero.id);
     }
@@ -45,7 +77,7 @@ export default function Home() {
 
                 if (!valor.nombre) {
                     error.nombre = 'por favor ingresa un nombre de héroe'
-                } else if (!/^[a-zA-Z0-9 ]{3,20}$/.test(valor.nombre)) {
+                } else if (!/^[a-zA-Z0-9- ]{3,20}$/.test(valor.nombre)) {
 
                     error.nombre = valor.nombre.length >= 3 ? 'Solo se aceptan letras, numeros y espacios' : 'Ingrese mas caracteres'; //length
                 }
@@ -63,7 +95,6 @@ export default function Home() {
                 console.log(heroes);
                 setCoincidencias(heroes.length)
                 setRespuesta([...heroes]);
-
             }}
 
         >
@@ -92,7 +123,7 @@ export default function Home() {
                         </div>
                     </nav>
                     <div>
-                        {respuesta.length > 0 && <Results results={respuesta} teamIds={getHeroIdList()} onAddHero={(hero) => setTeam([...team, hero])} />}
+                        {respuesta.length > 0 && <Results results={respuesta} teamData={getTeamData()} teamIds={getHeroIdList()} onAddHero={(hero) => addHero(hero)} />}
                         <Team team={team} onDelHero={(hero) => removeHero(hero)} />
                     </div>
                     {/* <div className='row'>
