@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import Team from './Team';
 import Results from './Results';
 import useLocalStorage from './useLocalStorage';
-import HeroDetails from './HeroDetails';
+
 
 export default function Home() {
     const [respuesta, setRespuesta] = useState([]);
@@ -31,10 +31,10 @@ export default function Home() {
     const getTeamData = () => {
 
         return {
-            bad : team.filter(member => member.biography.alignment === 'bad'),
-            good : team.filter(member => member.biography.alignment === 'good'),
-            neutral : team.filter(member => member.biography.alignment === 'neutral'),
-            ids : getHeroIdList()
+            good: team.filter(member => member.biography.alignment === 'good'),
+            neutral: team.filter(member => member.biography.alignment === 'neutral'),
+            bad: team.filter(member => member.biography.alignment === 'bad'),
+            ids: getHeroIdList()
         }
 
     }
@@ -75,12 +75,21 @@ export default function Home() {
             validate={(valor) => {
                 let error = {};
 
-                if (!valor.nombre) {
-                    error.nombre = 'por favor ingresa un nombre de héroe'
-                } else if (!/^[a-zA-Z0-9- ]{3,20}$/.test(valor.nombre)) {
 
-                    error.nombre = valor.nombre.length >= 3 ? 'Solo se aceptan letras, numeros y espacios' : 'Ingrese mas caracteres'; //length
+                if (!valor.nombre) {
+                    error.nombre = 'Ingresa un nombre del héroe'
+                } else if (!/^[a-zA-Z0-9- ]{3,20}$/.test(valor.nombre)) {
+                    error.nombre = valor.nombre.length >= 3 ? 'Solo se aceptan letras, números, espacios y guiones' : 'Ingrese mas caracteres'; //length
+                } else if (respuesta.length === 0) {
+                    error.nombre = 'No se encontraron resultados'
                 }
+
+                if (team.length >= 6) {
+                    error.nombre = 'El equipo se encuentra completo'
+                }
+
+
+
                 return error;
             }}
 
@@ -91,10 +100,20 @@ export default function Home() {
                 let res = await axios.get(url);
                 let datos = res.data;
                 let heroes = datos.results || [];
-                console.log("Tengo response");
-                console.log(heroes);
                 setCoincidencias(heroes.length)
                 setRespuesta([...heroes]);
+            }}
+
+            onChange={async (valor) => { 
+                console.log("en onchange")
+                if(valor.length >= 3 ){
+                    let url = getUrl + 'api.php/4132652440189887/search/' + valor.nombre;
+                    let res = await axios.get(url);
+                    let datos = res.data;
+                    let heroes = datos.results || [];
+                    setCoincidencias(heroes.length)
+                    setRespuesta([...heroes]);
+                }
             }}
 
         >
@@ -103,32 +122,36 @@ export default function Home() {
 
                 <div>
                     <nav className="navbar bg-light">
-                        <div className="container-fluid">
-                            <div className="navbar p-2">
-                                <h1 className="display-5 px-4">HeroTeam</h1>
-                                <form className="d-flex" onSubmit={ev => { ev.preventDefault() }}>
-                                    <input className="form-control me-2"
-                                        name="nombre"
-                                        value={values.nombre}
-                                        type="search"
-                                        placeholder="buscador de héroes"
-                                        aria-label="Search"
-                                        onChange={handleChange} />
-                                    <div>
-                                        {touched.nombre && errors.nombre && <div className="error alert alert-warning p-1 m-0">{errors.nombre}</div>}
-                                    </div>
-                                    <button className="btn btn-primary" type="submit" onClick={handleSubmit}>Buscar</button>
-                                </form>
+
+                        <h1 className="display-5 px-4">HeroTeam</h1>
+                        <form className="d-flex mt-3" onSubmit={ev => { ev.preventDefault() }}>
+                            <div className="input-group mb-3">
+                                <input className="form-control"
+                                    name="nombre"
+                                    value={values.nombre}
+                                    type="search"
+                                    placeholder="buscador de héroes"
+                                    aria-label="Search"
+                                    aria-describedby="button-search"
+                                    onChange={handleChange} />
+                                <button className="btn btn-primary" type="submit" id="button-search" onClick={handleSubmit}>Buscar</button>
+
+
                             </div>
-                        </div>
+                        </form>
                     </nav>
-                    <div>
-                        {respuesta.length > 0 && <Results results={respuesta} teamData={getTeamData()} teamIds={getHeroIdList()} onAddHero={(hero) => addHero(hero)} />}
+
+                    {touched.nombre && errors.nombre && <div className="alert alert-warning alert-dismissible fade show text-center" role="alert">
+                        {errors.nombre}
+                    </div>}
+
+                    <Results showResults={values.nombre && !errors.nombre} results={respuesta} teamData={getTeamData()} onAddHero={(hero) => addHero(hero)} />
+
+                    <div className="container-fluid">
+
                         <Team team={team} onDelHero={(hero) => removeHero(hero)} />
                     </div>
-                    {/* <div className='row'>
-                        <HeroDetails teamIds={getHeroIdList()} />
-                    </div> */}
+
 
                 </div>
             )}

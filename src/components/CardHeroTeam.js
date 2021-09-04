@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HeroDetails from "./HeroDetails";
+
 
 
 
@@ -17,7 +17,7 @@ const CardHeroTeam = ({ hero, delHero }) => {
     }
 
     const returnQuestionWhenIsNull = (attribute) => {
-        return attribute != "null" ? attribute : '?'
+        return attribute !== "null" ? attribute : '?'
     }
 
     const [selectHero, setSelectHero] = useState(false);
@@ -67,11 +67,6 @@ const CardHeroTeam = ({ hero, delHero }) => {
                 <button className="rounded-pill btn btn-secondary" onClick={() => { delHero(hero) }}><i className="fas fa-trash px-1"></i>eliminar</button>
 
             </div>
-            {/*   <div>
-                {
-                    selectHero && <HeroDetails hero={hero} />
-                }
-            </div> */}
 
         </div >
 

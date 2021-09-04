@@ -21,19 +21,15 @@ const RowResults = ({ hero, inTeam, maxSquad, maxTeam, addHero }) => {
     }
 
     return (
-        <tr>
-            <td> <img src={hero.image.url} className="rounded" style={{ width: '96px', height: '96px' }} alt={hero.name}></img></td>
-            <td> <h4>{hero.name}</h4> </td>
-            <td>
+
+            <div className='d-flex flex-row justify-content-between align-items-center'>
+                <img src={hero.image.url} className="rounded" style={{ width: '96px', height: '96px' }} alt={hero.name} />
+                <h4>{hero.name}</h4>
                 {
                     candAddMember() ? <button className='btn btn-primary' onClick={() => { addHero(hero) }}>Agregar</button>
                         : <button className='btn btn-secondary' disabled={true}> {messageCantAddMember(hero)} </button>
                 }
-            </td>
-        </tr>
-    );
-
-
+            </div>)
 };
 
 export default RowResults;
