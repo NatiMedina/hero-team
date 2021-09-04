@@ -75,10 +75,9 @@ const Acumulativo = ({ team }) => {
                 Peso promedio: {getAppearance(team)["weight"] + " kg Altura promedio:" + getAppearance(team)["height"] + " cm"}
             </h5>}
 
-            <div className="card-group">
+            <div className="card-group w-100">
                 {Object.entries(getStats(team)).map(data =>
-
-                    <div key={data[0]} className="card w-75 mx-1">
+                    <div key={data[0]} className="card mx-1">
                         <div class="card-header text-center">
                             <h4 className="card-title"> {data[0]} </h4>
                         </div>
