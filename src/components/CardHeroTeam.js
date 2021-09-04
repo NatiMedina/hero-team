@@ -76,6 +76,3 @@ const CardHeroTeam = ({ hero, delHero }) => {
 };
 
 export default CardHeroTeam;
-
-
-

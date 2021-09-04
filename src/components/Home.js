@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import Team from './Team';
 import Results from './Results';
 import useLocalStorage from './useLocalStorage';
+import Acumulativo from './Acumulativo';
 
 
 export default function Home() {
@@ -79,16 +80,21 @@ export default function Home() {
                 if (!valor.nombre) {
                     error.nombre = 'Ingresa un nombre del héroe'
                 } else if (!/^[a-zA-Z0-9- ]{3,20}$/.test(valor.nombre)) {
-                    error.nombre = valor.nombre.length >= 3 ? 'Solo se aceptan letras, números, espacios y guiones' : 'Ingrese mas caracteres'; //length
-                } else if (respuesta.length === 0) {
-                    error.nombre = 'No se encontraron resultados'
+                    if (valor.nombre.length < 3) {
+                        error.nombre = 'Ingrese mas caracteres';
+                        if (respuesta.length > 0) {
+                            setRespuesta([])
+                        }
+                    } else if (valor.nombre.length <= 20) {
+                        error.nombre = 'Solo se aceptan letras, números, espacios y guiones'  //length
+                    } else {
+                        error.nombre = 'Ingrese hasta 20 caracteres';
+                    }
                 }
 
                 if (team.length >= 6) {
                     error.nombre = 'El equipo se encuentra completo'
                 }
-
-
 
                 return error;
             }}
@@ -101,21 +107,9 @@ export default function Home() {
                 let datos = res.data;
                 let heroes = datos.results || [];
                 setCoincidencias(heroes.length)
+                console.log(heroes)
                 setRespuesta([...heroes]);
             }}
-
-            onChange={async (valor) => { 
-                console.log("en onchange")
-                if(valor.length >= 3 ){
-                    let url = getUrl + 'api.php/4132652440189887/search/' + valor.nombre;
-                    let res = await axios.get(url);
-                    let datos = res.data;
-                    let heroes = datos.results || [];
-                    setCoincidencias(heroes.length)
-                    setRespuesta([...heroes]);
-                }
-            }}
-
         >
 
             {({ values, errors, touched, handleSubmit, handleChange }) => (
@@ -144,7 +138,7 @@ export default function Home() {
                     {touched.nombre && errors.nombre && <div className="alert alert-warning alert-dismissible fade show text-center" role="alert">
                         {errors.nombre}
                     </div>}
-
+                    <Acumulativo team={team} />
                     <Results showResults={values.nombre && !errors.nombre} results={respuesta} teamData={getTeamData()} onAddHero={(hero) => addHero(hero)} />
 
                     <div className="container-fluid">
