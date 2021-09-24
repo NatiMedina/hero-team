@@ -8,6 +8,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import "@fortawesome/fontawesome-free/css/all.css"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
+import { Provider } from "react-redux"
+import store from './components/store'
 
 const RutaPrivada = () => {
   return (<PrivateRoute exact path="/home" component={Home} />)
@@ -17,12 +19,14 @@ const RutaPrivada = () => {
 ReactDOM.render(
   <React.StrictMode>
     <React.Fragment>
-      <Router>
-        <Switch>
-          <Route path="/" exact render={props => (<Login {...props} />)} ></Route>
-         <Route>{RutaPrivada}</Route> 
-        </Switch>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            <Route path="/" exact render={props => (<Login {...props} />)} ></Route>
+            <Route>{RutaPrivada}</Route>
+          </Switch>
+        </Router>
+      </Provider>
     </React.Fragment>
   </React.StrictMode>,
   document.getElementById('root')

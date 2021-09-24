@@ -111,8 +111,8 @@ class Login extends React.Component {
                                         <div className="card-body">
                                             <form onSubmit={handleSubmit}>
                                                 <div className="input-group form-group mb-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text" id="inputGroup-sizing-default"><i className="fa fa-envelope"></i></span>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text" id="inputGroup-sizing-default"><i className="fa fa-envelope"></i></span>
                                                         <input
                                                             type="text"
                                                             className="form-control"
@@ -128,8 +128,8 @@ class Login extends React.Component {
                                                     </div>
                                                 </div>
                                                 <div className="input-group form-group mb-3">
-                                                    <div class="input-group">
-                                                        <span class="input-group-text" id="inputGroup-sizing-default"><i className="fas fa-key"></i></span>
+                                                    <div className="input-group">
+                                                        <span className="input-group-text" id="inputGroup-sizing-default"><i className="fas fa-key"></i></span>
                                                         <input
                                                             type="password"
                                                             className="form-control"

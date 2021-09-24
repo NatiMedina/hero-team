@@ -1,8 +1,8 @@
 import React from 'react';
 import CardHeroTeam from './CardHeroTeam';
+import { connect } from "react-redux";
 
-
-const Team = ({ team, onDelHero }) => {
+const Team = ({ team }) => {
 
     return (
         <div className="container-fluid  py-3">
@@ -11,11 +11,11 @@ const Team = ({ team, onDelHero }) => {
                 {
                     team.length === 0 ?
                         <div className="text-center">Sin miembros en el equipo</div> :
-                        team.map(el => <CardHeroTeam key={el.id} hero={el} delHero={(hero) => onDelHero(hero)} />)
+                        team.map(el => <CardHeroTeam key={el.id} hero={el} />)
                 }
             </div>
         </div>
     );
 };
 
-export default Team;
+export default connect(state => ({ team: state.team }), {})(Team);

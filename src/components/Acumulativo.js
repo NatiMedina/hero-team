@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 const Acumulativo = ({ team }) => {
 
@@ -78,7 +79,7 @@ const Acumulativo = ({ team }) => {
             <div className="card-group w-100">
                 {Object.entries(getStats(team)).map(data =>
                     <div key={data[0]} className="card mx-1">
-                        <div class="card-header text-center">
+                        <div className="card-header text-center">
                             <h4 className="card-title"> {data[0]} </h4>
                         </div>
                         <div className="card-body text-center">
@@ -92,4 +93,8 @@ const Acumulativo = ({ team }) => {
     );
 }
 
-export default Acumulativo;
+const mapStateToProps = state => ({
+    team: state.team
+})
+
+export default connect(mapStateToProps, {})(Acumulativo);

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 
 
-
-
-const CardHeroTeam = ({ hero, delHero }) => {
+const CardHeroTeam = ({ hero, EliminarHeroe }) => {
 
     const classColorAlignment = (hero, bootstrapclass) => {
         if (hero.biography.alignment === "good") {
@@ -38,7 +37,7 @@ const CardHeroTeam = ({ hero, delHero }) => {
                 {
                     !selectHero &&
                     <ul style={{ paddingTop: '3px', listStyleType: 'none', marginLeft: '10%', fontSize: '1.10rem' }}>
-                        <li><p><span className="badge rounded-pill bg-primary">{returnQuestionWhenIsNull(hero.powerstats.combat) }</span> Combate</p></li>
+                        <li><p><span className="badge rounded-pill bg-primary">{returnQuestionWhenIsNull(hero.powerstats.combat)}</span> Combate</p></li>
                         <li><p><span className="badge rounded-pill bg-primary">{returnQuestionWhenIsNull(hero.powerstats.durability)}</span> Durabilidad</p></li>
                         <li><p><span className="badge rounded-pill bg-primary">{returnQuestionWhenIsNull(hero.powerstats.intelligence)}</span> Inteligencia</p></li>
                         <li><p><span className="badge rounded-pill bg-primary">{returnQuestionWhenIsNull(hero.powerstats.power)}</span> Poder</p></li>
@@ -57,22 +56,29 @@ const CardHeroTeam = ({ hero, delHero }) => {
                         <li><p>Cabello <span className="badge rounded-pill bg-primary">{hero.appearance["hair-color"]}</span></p></li>
                         <li><p>Trabajo:</p></li>
                         {
-                            hero.work.base.replace(";", ",").split(",").map(word => <li key={word+hero.id} ><span className="badge rounded-pill bg-primary" style={{ fontSize: '.75rem' }}>{word}</span></li>)
+                            hero.work.base.replace(";", ",").split(",").map(word => <li key={word + hero.id} ><span className="badge rounded-pill bg-primary" style={{ fontSize: '.75rem' }}>{word}</span></li>)
                         }
 
                     </ul>}
             </div>
             <div className="d-grid gap-2 d-md-flex justify-content-md-center pb-3">
                 <button className="rounded-pill btn btn-info" onClick={() => { setSelectHero(!selectHero) }}><i className="fas fa-search px-1"></i>{!selectHero && 'detalle'}{selectHero && 'volver'}</button>
-                <button className="rounded-pill btn btn-secondary" onClick={() => { delHero(hero) }}><i className="fas fa-trash px-1"></i>eliminar</button>
+                <button className="rounded-pill btn btn-secondary" onClick={() => { EliminarHeroe(hero) }}><i className="fas fa-trash px-1"></i>eliminar</button>
 
             </div>
 
         </div >
-
     );
-
-
 };
 
-export default CardHeroTeam;
+const mapDispatchToProps = dispatch => ({
+
+    EliminarHeroe(hero) {
+        dispatch({
+            type: "ELIMINAR_HERO",
+            hero
+        })
+    },
+})
+
+export default connect(state => ({ team: state.team }), mapDispatchToProps)(CardHeroTeam);

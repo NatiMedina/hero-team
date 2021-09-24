@@ -5,13 +5,16 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import Team from './Team';
 import Results from './Results';
-import useLocalStorage from './useLocalStorage';
 import Acumulativo from './Acumulativo';
+import { connect } from "react-redux";
+
+const mapStateToProps = state => ({
+    team: state.team
+})
 
 
-export default function Home() {
+export default connect(mapStateToProps, {})(function Home({ team }) {
     const [respuesta, setRespuesta] = useState([]);
-    const [team, setTeam] = useLocalStorage('team', []);
     const [coincidencias, setCoincidencias] = useState(null);
 
 
@@ -20,50 +23,6 @@ export default function Home() {
         else if (coincidencias === 1) { document.title = `se encontro ${coincidencias} coincidencia` }
         else if (coincidencias === 0) { document.title = "no se encontro coincidencias" }
     })
-
-    const removeHero = (hero) => {
-        const i = team.indexOf(hero);
-        if (i >= 0) {
-            let newTeam = team.filter(member => member.id !== hero.id)
-            setTeam([...newTeam]);
-        }
-    };
-
-    const getTeamData = () => {
-
-        return {
-            good: team.filter(member => member.biography.alignment === 'good'),
-            neutral: team.filter(member => member.biography.alignment === 'neutral'),
-            bad: team.filter(member => member.biography.alignment === 'bad'),
-            ids: getHeroIdList()
-        }
-
-    }
-
-    const addHero = (hero) => {
-        if (team.length > 6) return;
-
-        const bad = team.filter(member => member.biography.alignment === 'bad');
-        const good = team.filter(member => member.biography.alignment === 'good');
-        const neutral = team.filter(member => member.biography.alignment === 'neutral');
-
-        if (hero.biography.alignment === 'bad' && bad.length < 3) {
-            setTeam([...team, hero])
-        }
-
-        if (hero.biography.alignment === 'good' && good.length < 3) {
-            setTeam([...good, hero, ...neutral, ...bad])
-        }
-
-        if (hero.biography.alignment === 'neutral') {
-            setTeam([...good, ...neutral, hero, ...bad])
-        }
-    }
-
-
-    const getHeroIdList = () => {
-        return team.map(hero => hero.id);
-    }
 
     return (
 
@@ -99,24 +58,22 @@ export default function Home() {
                 return error;
             }}
 
-
-
             onSubmit={async (valor) => {
                 let url = getUrl + 'api.php/4132652440189887/search/' + valor.nombre;
                 let res = await axios.get(url);
                 let datos = res.data;
                 let heroes = datos.results || [];
                 setCoincidencias(heroes.length)
-                console.log(heroes)
+                heroes.forEach(element => {
+                    element.biography.alignment = element.biography.alignment.replace('-', 'neutral') || 'neutral'
+                });
                 setRespuesta([...heroes]);
             }}
         >
 
             {({ values, errors, touched, handleSubmit, handleChange }) => (
-
                 <div>
                     <nav className="navbar bg-light">
-
                         <h1 className="display-5 px-4">HeroTeam</h1>
                         <form className="d-flex mt-3" onSubmit={ev => { ev.preventDefault() }}>
                             <div className="input-group mb-3">
@@ -129,8 +86,6 @@ export default function Home() {
                                     aria-describedby="button-search"
                                     onChange={handleChange} />
                                 <button className="btn btn-primary" type="submit" id="button-search" onClick={handleSubmit}>Buscar</button>
-
-
                             </div>
                         </form>
                     </nav>
@@ -138,17 +93,15 @@ export default function Home() {
                     {touched.nombre && errors.nombre && <div className="alert alert-warning alert-dismissible fade show text-center" role="alert">
                         {errors.nombre}
                     </div>}
-                    <Results showResults={values.nombre && !errors.nombre} results={respuesta} teamData={getTeamData()} onAddHero={(hero) => addHero(hero)} />
-                    <Acumulativo team={team} />
+                    <Results showResults={values.nombre && !errors.nombre} results={respuesta}/>
+                    <Acumulativo />
 
                     <div className="container-fluid">
-
-                        <Team team={team} onDelHero={(hero) => removeHero(hero)} />
+                        <Team />
                     </div>
-
 
                 </div>
             )}
         </Formik>
     );
-}
+})
